@@ -35,11 +35,15 @@ def pick_store():
     user_input_store=input("Pick a store by typing its name. Or type \"checkout\" to pay your bills and say your goodbyes.\n")
     user_input_store=str(user_input_store).capitalize()
     print ("-"*50)
+    while user_input_store=="":
+        user_input_store=input()
+        user_input_store=str(user_input_store).capitalize()
     if (user_input_store=="Checkout"):
         return "checkout"
+   
     elif get_store(user_input_store)==False:
         print("No store with that name. Please try again.")
-        user_input_store=pick_store()
+        return False
     else:
         return get_store(user_input_store)
 
@@ -82,8 +86,11 @@ def shop():
     # your code goes here!
     picked_store=pick_store()
     while picked_store!="checkout":
-        pick_products(cart,picked_store)
-        picked_store=pick_store()
+        if picked_store==False:
+            picked_store=pick_store()
+        else:
+            pick_products(cart,picked_store)
+            picked_store=pick_store()           
     else:
         cart.checkout()
 
